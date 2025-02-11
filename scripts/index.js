@@ -10,9 +10,10 @@ function deleteCard(event) {
 
 function createCard(item, deleteCard) {
   const cardElement = elementTemplate.querySelector(".card").cloneNode(true); //клонирование
+  const cardImage = cardElement.querySelector(".card__image");
 
-  cardElement.querySelector(".card__image").src = item.link;
-  cardElement.querySelector(".card__image").alt = item.name;
+  cardImage.src = item.link;
+  cardImage.alt = item.name;
   cardElement.querySelector(".card__title").textContent = item.name;
 
   const cardDeleteButton = cardElement.querySelector(".card__delete-button"); // тут создаете карточку и возвращаете ее
