@@ -50,9 +50,6 @@ export function addElements({
   elementTemplate,
   placesList,
 }) {
-  console.log("initialCards :", initialCards);
-  console.log("elementTemplate :", elementTemplate);
-
   const fragment = document.createDocumentFragment();
 
   initialCards.forEach((item) => {
