@@ -1,8 +1,3 @@
-import { closePopup } from "./modal";
-
-const popuTypeImage = document.querySelector(".popup_type_image");
-const popupImage = document.querySelector(".popup__image");
-
 export function deleteCard(event) {
   const card = event.target.closest(".card");
   if (card) {
@@ -10,13 +5,13 @@ export function deleteCard(event) {
   }
 }
 
-export function createCard(
+export function createCard({
   item,
   deleteCard,
   likeHeart,
   handleImageClick,
-  elementTemplate
-) {
+  elementTemplate,
+}) {
   const cardElement = elementTemplate.querySelector(".card").cloneNode(true); //клонирование
   const cardImage = cardElement.querySelector(".card__image");
 
@@ -34,31 +29,9 @@ export function createCard(
   cardLikeButton.addEventListener("click", () => {
     likeHeart(cardLikeButton);
   });
-
-  cardImage.addEventListener("click", (e) => {
-    handleImageClick(e);
-  });
+  cardImage.addEventListener("click", () => handleImageClick(item, cardImage));
 
   return cardElement;
-}
-
-export function addElements({
-  initialCards,
-  deleteCard,
-  likeHeart,
-  handleImageClick,
-  elementTemplate,
-  placesList,
-}) {
-  const fragment = document.createDocumentFragment();
-
-  initialCards.forEach((item) => {
-    fragment.prepend(
-      createCard(item, deleteCard, likeHeart, handleImageClick, elementTemplate)
-    );
-  });
-
-  placesList.prepend(fragment);
 }
 
 //Лайк карточек
@@ -66,20 +39,4 @@ export function addElements({
 export function likeHeart(button) {
   // Переключаем класс для изменения состояния лайка
   button.classList.toggle("card__like-button_is-active");
-}
-
-// Клик на карточку
-
-export function handleImageClick(e) {
-  if (e.target.classList.contains("card__image")) {
-    const src = e.target.getAttribute("src");
-    const alt = e.target.getAttribute("alt");
-    const popupCaption = popuTypeImage.querySelector(".popup__caption");
-    popupImage.src = src;
-    popupImage.alt = alt;
-    popupCaption.textContent = alt;
-    popuTypeImage.classList.add("visible");
-
-    closePopup(popuTypeImage);
-  }
 }

@@ -1,47 +1,26 @@
-// добавление и закрытие попапа
-export const displayNone = (popup) => popup.classList.remove("visible");
-
-export function closePopup(popup) {
-  const handleClick = function (e) {
-    if (
-      e.target.classList.contains("popup__close") ||
-      e.target.classList.contains("popup")
-    ) {
-      displayNone(popup);
-      removeEventListeners(popup);
-    }
-  };
-
-  const handleKeydown = (e) => {
-    if (e.code === "Escape") {
-      displayNone(popup);
-      removeEventListeners(popup);
-    }
-  };
-
-  popup.addEventListener("click", handleClick);
-  document.addEventListener("keydown", handleKeydown);
-
-  function removeEventListeners() {
-    popup.removeEventListener("click", handleClick);
-    document.removeEventListener("keydown", handleKeydown);
+const handleEscape = (e) => {
+  if (e.key === "Escape") {
+    const openedPopup = document.querySelector(".visible");
+    closePopup(openedPopup);
   }
+};
+
+export function openPopup(popup) {
+  popup.classList.add("visible");
+  document.addEventListener("keydown", handleEscape); // добавляем обработчик `Escape`
 }
 
-export function setupPopup(openButton, popup) {
+export function closePopup(popup) {
+  popup.classList.remove("visible");
+  document.removeEventListener("keydown", handleEscape);
+}
+
+export function setupPopup(openButton, popup, callback) {
   openButton.addEventListener("click", function () {
-    popup.classList.add("visible");
-    closePopup(popup);
-    if (openButton.classList.contains("profile__edit-button")) {
-      const profileInfo = document.querySelector(".profile__info");
-      const profileTitle =
-        profileInfo.querySelector(".profile__title").textContent;
-      const profileDescription = profileInfo.querySelector(
-        ".profile__description"
-      ).textContent;
-      popup.querySelector(".popup__input_type_name").value = profileTitle;
-      popup.querySelector(".popup__input_type_description").value =
-        profileDescription;
+    openPopup(popup);
+    if (callback) {
+      // если передали `callback`, то вызываем его
+      callback();
     }
   });
 }
