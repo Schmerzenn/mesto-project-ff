@@ -19,6 +19,13 @@
   cursor: pointer;
 }
 
+.popup__button:disabled {
+  background-color: rgba(255, 255, 255, 0.5); /* Полупрозрачный белый фон */
+  color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный текст */
+  cursor: not-allowed; /* Изменение курсора */
+  border: 1px solid rgba(0, 0, 0, 0.2); /* Полупрозрачная граница */
+}
+
 @media screen and (max-width: 568px) {
   .popup__button {
     font-size: 14px;
