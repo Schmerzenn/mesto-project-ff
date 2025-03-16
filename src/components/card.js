@@ -1,12 +1,16 @@
 import { deleteCardById, deleteLikeById, likeById } from "../scripts/api";
+import { handleCatch } from "../scripts/utils";
 
-export async function deleteCard(event) {
+export function deleteCard(event) {
   const card = event.target.closest(".card");
   const id = card.getAttribute("data-id");
-  await deleteCardById(id);
-  if (card) {
-    card.remove();
-  }
+  deleteCardById(id)
+    .then(() => {
+      if (card) {
+        card.remove();
+      }
+    })
+    .catch(handleCatch);
 }
 
 export function createCard({
@@ -56,13 +60,26 @@ export function createCard({
 //Лайк карточек
 
 export function likeHeart(button, count, id) {
+  button.disabled = true;
   if (button.classList.contains("card__like-button_is-active")) {
-    deleteLikeById(id);
-    count.textContent--;
+    deleteLikeById(id)
+      .then(({ likes }) => {
+        count.textContent = likes.length;
+        button.classList.toggle("card__like-button_is-active");
+      })
+      .catch(handleCatch)
+      .finally(() => {
+        button.disabled = false;
+      });
   } else {
-    likeById(id);
-    count.textContent++;
+    likeById(id)
+      .then(({ likes }) => {
+        count.textContent = likes.length;
+        button.classList.toggle("card__like-button_is-active");
+      })
+      .catch(handleCatch)
+      .finally(() => {
+        button.disabled = false;
+      });
   }
-
-  button.classList.toggle("card__like-button_is-active");
 }

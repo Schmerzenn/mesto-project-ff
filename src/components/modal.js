@@ -1,6 +1,3 @@
-import { hideInputErrors } from "./validation";
-export const BUTTON_TEXT_LOADING = "Сохранение...";
-export const BUTTON_TEXT_SAVE = "Сохранить";
 const handleEscape = (e) => {
   if (e.key === "Escape") {
     const openedPopup = document.querySelector(".visible");
@@ -10,9 +7,6 @@ const handleEscape = (e) => {
 
 export function openPopup(popup) {
   popup.classList.add("visible");
-
-  hideInputErrors(popup);
-
   document.addEventListener("keydown", handleEscape); // добавляем обработчик `Escape`
 }
 

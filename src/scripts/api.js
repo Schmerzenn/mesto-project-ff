@@ -1,3 +1,5 @@
+import { handleResponse } from "./utils";
+
 const key = "564003e5-ae42-4237-b04a-556ce8c54f95";
 
 const config = {
@@ -16,89 +18,49 @@ const path = {
   avatar: "avatar",
 };
 
+export function request(point, options) {
+  // принимает два аргумента: урл и объект опций, как и `fetch`
+  return fetch(`${config.baseUrl}${point}`, options).then(handleResponse);
+}
+
 const getNomoreparties = async (point) => {
-  return await fetch(`${config.baseUrl}${point}`, {
+  return await request(point, {
     headers: config.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  });
 };
 
 const patchNomoreparties = async (point, body) => {
-  return fetch(`${config.baseUrl}${point}`, {
+  return request(point, {
     method: "PATCH",
     headers: config.headers,
     body: JSON.stringify(body),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  });
 };
 
 const postNomoreparties = async (point, body) => {
-  return fetch(`${config.baseUrl}${point}`, {
+  return request(point, {
     method: "POST",
     headers: config.headers,
     body: JSON.stringify(body),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  });
 };
 
 const deleteNomoreparties = async (point, id) => {
-  return fetch(`${config.baseUrl}${point}${id}`, {
+  return request(`${point}${id}`, {
     method: "DELETE",
     headers: {
       authorization: key,
     },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  });
 };
 
 const putNomoreparties = async (point, id) => {
-  return fetch(`${config.baseUrl}${point}${id}`, {
+  return request(`${point}${id}`, {
     method: "PUT",
     headers: {
       authorization: key,
     },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  });
 };
 
 export function setAvatar(link) {
