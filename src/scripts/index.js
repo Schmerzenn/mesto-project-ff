@@ -11,6 +11,7 @@ import {
   enableValidation,
   hideInputErrors,
   renderLoading,
+  runValidate,
 } from "../components/validation";
 import "../pages/index.css"; // добавьте импорт главного файла стилей
 import {
@@ -187,6 +188,7 @@ function handleProfileFormSubmit(e) {
     .then((profile) => {
       profileTitle.textContent = profile.name;
       profileDescription.textContent = profile.about;
+      closePopup(popupTypeEdit);
     })
     .catch(handleCatch)
     .finally(() => {
@@ -194,7 +196,6 @@ function handleProfileFormSubmit(e) {
         buttonElement: editProfileSubmit,
         isLoading: false,
       });
-      closePopup(popupTypeEdit);
     });
 }
 
@@ -210,6 +211,7 @@ function handleAvatarFormSubmit(e) {
   })
     .then((profile) => {
       setLocalBackgroundAvatar(profile.avatar);
+      closePopup(popuTypeAvatarEdit);
     })
     .catch(handleCatch)
     .finally(() => {
@@ -217,7 +219,6 @@ function handleAvatarFormSubmit(e) {
         buttonElement: avatarFormSubmit,
         isLoading: false,
       });
-      closePopup(popuTypeAvatarEdit);
     });
 }
 
@@ -245,6 +246,7 @@ function handleNewPlaceFormSubmit(e) {
         placesList,
         ownerId: card.owner._id,
       });
+      closePopup(popupTypeNewCard);
     })
     .catch(handleCatch)
     .finally(() => {
@@ -253,7 +255,6 @@ function handleNewPlaceFormSubmit(e) {
         isLoading: false,
       });
       e.target.reset();
-      closePopup(popupTypeNewCard);
     });
 }
 
@@ -269,7 +270,7 @@ popups.forEach((popup) => {
 });
 
 formPopups.forEach((form) => {
-  enableValidation(form, validationConfig, true);
+  enableValidation(form, validationConfig);
 });
 
 function setLocalBackgroundAvatar(avatar) {
@@ -284,6 +285,6 @@ function setInitialProfile(profileData) {
 }
 
 function initialValidation(form, popup) {
-  enableValidation(form, validationConfig);
+  runValidate(form, validationConfig);
   hideInputErrors(popup, validationConfig);
 }

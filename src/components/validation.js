@@ -24,7 +24,11 @@ export const hideInputErrors = (
   });
 };
 
-export function enableValidation(form, validationConfig, subscribe = false) {
+export function enableValidation(form, validationConfig) {
+  runValidate(form, validationConfig, true);
+}
+
+export function runValidate(form, validationConfig, subscribe = false) {
   const formInputs = Array.from(
     form.querySelectorAll(validationConfig.inputSelector)
   );
@@ -126,7 +130,7 @@ const handleInputsValid = ({
   formInputs.forEach((input) => {
     const popupInputTypeUrl = input.classList.contains(
       validationConfig.inputUrlClass
-    ); //TODO
+    );
 
     const validateInput = () => {
       isValid({ input, formPopup: form, popupInputTypeUrl, validationConfig });
